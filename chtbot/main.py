@@ -4,7 +4,6 @@ import openai
 from typing import Dict, List, Any
 
 # Set up OpenAI API key
-openai.api_key = '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'  # Replace with actual key
 
 class ConversationMemory:
     def __init__(self, max_history_length=10):

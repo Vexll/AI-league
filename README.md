@@ -1,5 +1,5 @@
 SportsMate: Intelligent Chatbot and Trip Planner
-Welcome to SportsMate, a powerful application designed to enhance your sports experience with two key features:
+Welcome to SportsMate! A powerful application designed to enhance your sports experience with two key features:
 
 An Intelligent Chatbot system with specialized agents 🤖.
 
@@ -45,23 +45,20 @@ Smart query routing, powered by OpenAI GPT-3.5-turbo.
 Integration with custom datasets for enhanced responses.
 
 Features
-Conversation Memory
-
+1. Conversation Memory
 Remembers up to 10 previous interactions.
 
 Provides personalized, context-aware responses.
 
-Specialized Agents
-
+2. Specialized Agents
 FoodAgent: Assists with food-related queries 🍔.
 
 SportsAgent: Provides sports-related information 🏅.
 
 GeneralAgent: A versatile assistant for miscellaneous queries.
 
-Query Routing
-
-GPT-3.5-turbo for intelligent classification of queries.
+3. Query Routing
+Uses GPT-3.5-turbo for intelligent classification of queries.
 
 Default fallback to GeneralAgent in case of errors or unrecognized queries.
 
@@ -94,18 +91,15 @@ Generate detailed trip itineraries.
 Create visual roadmaps for sports events.
 
 Features
-User Input Collection
-
+1. User Input Collection
 Collects key details like trip dates 📅, event preferences, accommodation needs, ticket status, and personal requirements.
 
-Itinerary Generation
-
+2. Itinerary Generation
 Generates a detailed daily schedule, including time-specific events ⏰.
 
 Powered by OpenAI GPT-4-turbo for intelligent planning.
 
-Visual Roadmap
-
+3. Visual Roadmap
 Generates daily roadmap images.
 
 Creates a final combined visualization of the trip with event details, times, and locations.

@@ -1,0 +1,7 @@
+openai==0.28
+Pillow
+numpy
+matplotlib
+selenium
+beautifulsoup4
+pandas

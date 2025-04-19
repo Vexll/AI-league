@@ -1,120 +1,40 @@
+# chatbot/main.py
+
 import json
 import os
 import openai
-from typing import Dict, List, Any
+from typing import Dict, Any
 
-# Set up OpenAI API key
+# ===================== Memory =====================
 
 class ConversationMemory:
     def __init__(self, max_history_length=10):
-        """
-        Initialize conversation memory
-        
-        Args:
-            max_history_length (int): Maximum number of previous interactions to remember
-        """
         self.memory = []
         self.max_history_length = max_history_length
     
     def add_interaction(self, user_query: str, bot_response: str):
-        """
-        Add a new interaction to the memory
-        
-        Args:
-            user_query (str): User's input
-            bot_response (str): Bot's response
-        """
-        # Add new interaction
-        self.memory.append({
-            "user": user_query,
-            "bot": bot_response
-        })
-        
-        # Trim memory if it exceeds max length
+        self.memory.append({"user": user_query, "bot": bot_response})
         if len(self.memory) > self.max_history_length:
             self.memory = self.memory[-self.max_history_length:]
     
     def get_conversation_context(self) -> str:
-        """
-        Generate a context string from conversation history
-        
-        Returns:
-            str: Formatted conversation history
-        """
         context = "Conversation History:\n"
         for interaction in self.memory:
             context += f"User: {interaction['user']}\n"
             context += f"Bot: {interaction['bot']}\n"
         return context
 
-class LLMTeacher:
-    def __init__(self):
-        self.students = {
-            'food_agent': FoodAgent(),
-            'sports_agent': SportsAgent(),
-            'general_agent': GeneralAgent()
-        }
-    
-    def route_query(self, user_query: str) -> Dict[str, Any]:
-        """
-        Determine which agent should handle the query
-        Uses OpenAI to classify and route the query
-        """
-        try:
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {
-                        "role": "system", 
-                        "content": """
-                        You are an expert query router for an intelligent chatbot.
-                        Classify the user's query into one of these categories:
-                        1. food (ordering food, menu, dietary needs, restaurants)
-                        2. sports (match details, rules, game moments)
-                        3. general (anything else not covered by above categories)
-                        
-                        Respond ONLY with the category name.
-                        """
-                    },
-                    {
-                        "role": "user", 
-                        "content": user_query
-                    }
-                ],
-                max_tokens=10
-            )
-            
-            category = response.choices[0].message.content.strip().lower()
-            
-            # Fallback mechanism
-            if category not in self.students:
-                category = 'general_agent'
-            
-            return {
-                'agent': self.students[f'{category}_agent'],
-                'category': category
-            }
-        
-        except Exception as e:
-            print(f"Routing error: {e}")
-            return {
-                'agent': self.students['general_agent'],
-                'category': 'general'
-            }
+# ===================== Base Agent =====================
 
 class BaseAgent:
     def __init__(self):
         self.datasets = self.load_datasets()
     
     def load_datasets(self):
-        """Load all datasets from the datasets folder"""
         datasets = {}
         datasets_path = 'datasets'
-        
-        # Ensure datasets folder exists
         os.makedirs(datasets_path, exist_ok=True)
-        
-        # Load all JSON files in the datasets folder
+
         for filename in os.listdir(datasets_path):
             if filename.endswith('.json'):
                 filepath = os.path.join(datasets_path, filename)
@@ -126,140 +46,109 @@ class BaseAgent:
                     print(f"Error loading dataset {filename}: {e}")
         
         return datasets
-    
+
     def generate_response(self, query: str, memory: ConversationMemory) -> str:
-        """Generate response using OpenAI with dataset context and conversation history"""
         try:
-            # Prepare context messages
-            context_messages = [
-                {
-                    "role": "system", 
-                    "content": self.get_system_prompt()
-                },
-                {
-                    "role": "system",
-                    "content": f"Available datasets: {', '.join(self.datasets.keys())}"
-                },
-                {
-                    "role": "system",
-                    "content": memory.get_conversation_context()
-                }
+            messages = [
+                {"role": "system", "content": self.get_system_prompt()},
+                {"role": "system", "content": f"Available datasets: {', '.join(self.datasets.keys())}"},
+                {"role": "system", "content": memory.get_conversation_context()}
             ]
-            
-            # Add dataset contexts
-            for dataset_name, dataset_content in self.datasets.items():
-                context_messages.append({
+
+            for dataset_name, content in self.datasets.items():
+                messages.append({
                     "role": "system",
-                    "content": f"Dataset for {dataset_name}: {json.dumps(dataset_content)}"
+                    "content": f"Dataset for {dataset_name}: {json.dumps(content)}"
                 })
-            
-            # Add user query
-            context_messages.append({
-                "role": "user", 
-                "content": query
-            })
-            
-            # Generate response
+
+            messages.append({"role": "user", "content": query})
+
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=context_messages,
+                messages=messages,
                 max_tokens=300
             )
             return response.choices[0].message.content
         except Exception as e:
             return f"Sorry, I encountered an error: {e}"
-    
+
     def get_system_prompt(self):
-        """Define system prompt for the agent"""
-        raise NotImplementedError("Subclasses must implement this method")
+        raise NotImplementedError("Subclasses must implement this")
+
+# ===================== Specialized Agents =====================
 
 class FoodAgent(BaseAgent):
     def get_system_prompt(self):
         return """
         You are a helpful food and restaurant assistant.
-        Key responsibilities:
-        - Assist with food orders
-        - Provide menu information
-        - Address dietary restrictions and allergies
-        - Recommend meals
-        - Provide nutritional information
-        
-        Important guidelines:
-        - Use conversation history to provide context-aware responses
-        - Reference available datasets for accurate information
-        - Be friendly, informative, and prioritize user safety
-        - Remember previous queries to offer more personalized assistance
+        Assist with orders, menus, dietary needs, and be friendly and informative.
         """
 
 class SportsAgent(BaseAgent):
     def get_system_prompt(self):
         return """
-        You are a comprehensive sports information assistant.
-        Key responsibilities:
-        - Explain sports rules and regulations
-        - Provide match details and key moments
-        - Discuss team and player information
-        - Answer questions about sports events
-        - Offer insights into game strategies
-        
-        Important guidelines:
-        - Use conversation history to provide context-aware responses
-        - Reference available datasets for accurate information
-        - Be knowledgeable, descriptive, and exciting
-        - Connect current query with previous conversation context
+        You are a sports assistant. Explain rules, give match info, and help with sports-related queries.
         """
 
 class GeneralAgent(BaseAgent):
     def get_system_prompt(self):
         return """
-        You are a versatile assistant capable of handling various queries.
-        Key responsibilities:
-        - Answer questions across different topics
-        - Provide information from available datasets
-        - Offer helpful and informative responses
-        - Direct users to appropriate resources
-        
-        Important guidelines:
-        - Use conversation history to understand context
-        - Refer to available datasets for accurate information
-        - Be helpful, clear, and adaptable
-        - Maintain conversational continuity
+        You are a general assistant for various topics not covered by food or sports.
+        Be helpful and versatile.
         """
 
-class SportsFanChatbot:
+# ===================== Router =====================
+
+class LLMTeacher:
+    def __init__(self):
+        self.students = {
+            'food': FoodAgent(),
+            'sports': SportsAgent(),
+            'general': GeneralAgent()
+        }
+
+    def route_query(self, query: str) -> Dict[str, Any]:
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "Classify this query as: food, sports, or general."},
+                    {"role": "user", "content": query}
+                ],
+                max_tokens=10
+            )
+            category = response.choices[0].message.content.strip().lower()
+            if category not in self.students:
+                category = 'general'
+            return {
+                'agent': self.students[category],
+                'category': category
+            }
+        except Exception as e:
+            print(f"Routing failed: {e}")
+            return {
+                'agent': self.students['general'],
+                'category': 'general'
+            }
+
+# ===================== Final Chatbot API Handler =====================
+
+class PreorderAgent:
     def __init__(self):
         self.teacher = LLMTeacher()
         self.memory = ConversationMemory()
     
-    def interact(self):
-        print("Welcome to the Intelligent Chatbot!")
-        print("Type 'exit' to end the conversation.")
-        
-        while True:
-            user_query = input("\nYou: ")
-            
-            if user_query.lower() == 'exit':
-                break
-            
-            # Route query to appropriate agent
-            routing_result = self.teacher.route_query(user_query)
-            agent = routing_result['agent']
-            
-            # Generate response
-            response = agent.generate_response(user_query, self.memory)
-            
-            # Add interaction to memory
-            self.memory.add_interaction(user_query, response)
-            
-            print(f"\nChatbot: {response}")
+    def process_order(self, query: str, memory_input: list):
+        # Optional: Load existing memory if sent from frontend
+        if memory_input:
+            self.memory.memory = memory_input
 
-def main():
-   
-  
-    
-    # Run chatbot
-    chatbot = SportsFanChatbot()
-    chatbot.interact()
-
-if __name__ == "__main__":
-    main()
+        routing_result = self.teacher.route_query(query)
+        agent = routing_result['agent']
+        response = agent.generate_response(query, self.memory)
+        self.memory.add_interaction(query, response)
+        return {
+            "response": response,
+            "memory": self.memory.memory,
+            "category": routing_result['category']
+        }

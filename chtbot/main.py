@@ -8,14 +8,18 @@ from typing import Dict, Any
 # ===================== Memory =====================
 
 class ConversationMemory:
-    def __init__(self, max_history_length=10):
+    def __init__(self, max_history_length=10_000):
         self.memory = []
         self.max_history_length = max_history_length
+        self.length = 0
     
     def add_interaction(self, user_query: str, bot_response: str):
         self.memory.append({"user": user_query, "bot": bot_response})
-        if len(self.memory) > self.max_history_length:
-            self.memory = self.memory[-self.max_history_length:]
+        self.length += len(str({"user": user_query, "bot": bot_response}))
+        if self.length > self.max_history_length:
+            self.length -= len(str(self.memory[0]))
+            self.memory = self.memory[1:]
+
     
     def get_conversation_context(self) -> str:
         context = "Conversation History:\n"
@@ -80,22 +84,29 @@ class BaseAgent:
 class FoodAgent(BaseAgent):
     def get_system_prompt(self):
         return """
-        You are a helpful food and restaurant assistant.
-        Assist with orders, menus, dietary needs, and be friendly and informative.
-        """
+You are a helpful food and restaurant assistant.
+Assist with orders, menus, dietary needs, and be friendly and informative.
+"""
 
 class SportsAgent(BaseAgent):
     def get_system_prompt(self):
         return """
-        You are a sports assistant. Explain rules, give match info, and help with sports-related queries.
-        """
+You are a sports assistant. Explain rules, give match info, and help with sports-related queries.
+"""
+
+class ReportingAgent(BaseAgent):
+    def get_system_prompt(self):
+        return """
+You are a report assistant
+You will receive a concern or report from a customer, tell them that it is reported and will be fixed soon, etc.
+"""
 
 class GeneralAgent(BaseAgent):
     def get_system_prompt(self):
         return """
-        You are a general assistant for various topics not covered by food or sports.
-        Be helpful and versatile.
-        """
+You are a general assistant for various topics not covered by food or sports.
+Be helpful and versatile.
+"""
 
 # ===================== Router =====================
 
@@ -104,15 +115,18 @@ class LLMTeacher:
         self.students = {
             'food': FoodAgent(),
             'sports': SportsAgent(),
-            'general': GeneralAgent()
+            'general': GeneralAgent(),
+            'reporting': ReportingAgent()
         }
 
     def route_query(self, query: str) -> Dict[str, Any]:
         try:
+            keys = list(self.students.keys())
+            keys_list = ", ".join(keys)
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "Classify this query as: food, sports, or general."},
+                    {"role": "system", "content": f"Classify this query as: {keys_list}."},
                     {"role": "user", "content": query}
                 ],
                 max_tokens=10

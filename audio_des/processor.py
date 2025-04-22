@@ -24,7 +24,7 @@ class AudioDescriptionProcessor:
         Initialize the audio description processor with OpenAI client
         """
         # Get API key from environment variables or use the one provided
-        self.api_key = os.getenv("OPENAI_API_KEY","YOUR_OPENAI")
+        self.api_key = "openai_api_key"
         openai.api_key = self.api_key
         self.vision_model = "gpt-4.1-mini"  # OpenAI's vision model   (gpt-4-vision-preview)
         self.text_model = "gpt-4.1-mini"  # OpenAI's text model for narrative generation

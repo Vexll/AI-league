@@ -1,5 +1,3 @@
-# chatbot/main.py
-
 import json
 import os
 import openai
@@ -107,8 +105,41 @@ class GeneralAgent(BaseAgent):
 You are a general assistant for various topics not covered by food or sports.
 Be helpful and versatile.
 """
+class ClubHistoryAgent(BaseAgent):
+    def get_system_prompt(self):
+        return """
+        You are an assistant specialized in international football clubs related to Saudi Arabia.
+        You provide information on:
+        - Major Historical Achievements
+        - Current Team Highlights
+        - Recent FIFA Ranking and Performance Trends
+        - Current Squad Information
+        Be factual and refer only to the relevant club data.
+        """
 
-# ===================== Router =====================
+class PlayerHistoryAgent(BaseAgent):
+    def get_system_prompt(self):
+        return """
+        You are an assistant that provides international club history for Saudi football players.
+        Provide:
+        - Personal Info
+        - Club Career (current and past clubs)
+        - Achievements (trophies, records, international appearances)
+        """
+
+class ChantAgent(BaseAgent):
+    def get_system_prompt(self):
+        return """
+        You are an assistant that handles Saudi Arabia National Football Team chants.
+        You describe the chant or translate it for non-Arabic speakers.
+        Format responses with:
+        - Chant Title
+        - Lyrics
+        - Description or Translation
+        Be culturally sensitive and engaging.
+        """
+
+# ===================== Modified LLMTeacher =====================
 
 class LLMTeacher:
     def __init__(self):
@@ -116,17 +147,27 @@ class LLMTeacher:
             'food': FoodAgent(),
             'sports': SportsAgent(),
             'general': GeneralAgent(),
-            'reporting': ReportingAgent()
+            'club_history': ClubHistoryAgent(),
+            'player_history': PlayerHistoryAgent(),
+            'chants': ChantAgent()
         }
 
     def route_query(self, query: str) -> Dict[str, Any]:
         try:
-            keys = list(self.students.keys())
-            keys_list = ", ".join(keys)
+            classification_prompt = """
+            Classify the query into one of the following categories:
+            - food
+            - sports
+            - general
+            - club_history (international football clubs related to Saudi Arabia)
+            - player_history (Saudi player international club history)
+            - chants (Saudi national team chants)
+            Just respond with the category.
+            """
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": f"Classify this query as: {keys_list}."},
+                    {"role": "system", "content": classification_prompt},
                     {"role": "user", "content": query}
                 ],
                 max_tokens=10

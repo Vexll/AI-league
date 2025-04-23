@@ -1,0 +1,553 @@
+{
+    "players's saudi arabia national football team": [
+      {
+        "personal_info": {
+          "full_name": "Nawaf Dhahi Faisal Al-Suwaiti Al-Aqidi",
+          "date_of_birth": "2000-05-10",
+          "place_of_birth": "Riyadh, Saudi Arabia",
+          "height": "1.86 m",
+          "position": "Goalkeeper"
+        },
+        "club_career": {
+          "current_club": "Al-Fateh (on loan from Al-Nassr)",
+          "previous_clubs": ["Al-Nassr", "Al-Tai (loan)"],
+          "career_highlights": "Debuted for Al-Nassr in 2021 and joined Al-Fateh on a six-month loan in January 2025. Part of Saudi Arabia’s Goalkeeper development program in 2019."
+        },
+        "achievements": {
+          "caps": 7,
+          "goals": 0,
+          "tournaments": ["2022 FIFA World Cup (squad)", "2023 AFC Asian Cup (squad)"],
+          "major_trophies": ["AFC U-23 Asian Cup 2022 (with Saudi U23)"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Hamed bin Abdullah bin Mohammed Yousef Al-Shanqiti",
+          "date_of_birth": "2005-04-26",
+          "place_of_birth": "Medina, Saudi Arabia",
+          "height": "1.95 m",
+          "position": "Goalkeeper"
+        },
+        "club_career": {
+          "current_club": "Al-Ittihad",
+          "previous_clubs": [],
+          "career_highlights": "Product of Al-Ittihad’s youth system, promoted to first team in 2023. Made senior squad appearances in domestic cup matches."
+        },
+        "achievements": {
+          "caps": 0,
+          "goals": 0,
+          "tournaments": ["2023 AFC U-20 Asian Cup (squad)"],
+          "major_trophies": ["Saudi Pro League 2022–23 (Al-Ittihad squad)"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Ahmed Ali Al-Kassar",
+          "date_of_birth": "1991-05-08",
+          "place_of_birth": "Qatif, Saudi Arabia",
+          "height": "1.79 m",
+          "position": "Goalkeeper"
+        },
+        "club_career": {
+          "current_club": "Al-Qadsiah",
+          "previous_clubs": ["Al-Raed", "Al-Ettifaq", "Al-Faisaly", "Al-Fayha"],
+          "career_highlights": "Won the Saudi First Division title with Al-Ettifaq in 2016. Joined Al-Qadsiah in 2024, helping them earn promotion by winning the 2023–24 First Division League."
+        },
+        "achievements": {
+          "caps": 8,
+          "goals": 0,
+          "tournaments": ["2023 AFC Asian Cup (squad)"],
+          "major_trophies": ["King's Cup 2020–21 (with Al-Faisaly)", "Saudi First Division 2023–24 (with Al-Qadsiah)"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Meshary Abdulaziz Amin Sanyor",
+          "date_of_birth": "2001-12-05",
+          "place_of_birth": "Wej, Saudi Arabia",
+          "height": "1.81 m",
+          "position": "Goalkeeper"
+        },
+        "club_career": {
+          "current_club": "Al-Raed",
+          "previous_clubs": [],
+          "career_highlights": "Became Al-Raed’s starting goalkeeper in 2024–25, keeping 2 clean sheets in 20 league appearances. Hero of a 2023 King’s Cup quarter-final shootout, saving penalties to send Al-Raed to the semifinals."
+        },
+        "achievements": {
+          "caps": 0,
+          "goals": 0,
+          "tournaments": [],
+          "major_trophies": [],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Muhannad Mustafa Al-Shanqeeti",
+          "date_of_birth": "1999-03-12",
+          "place_of_birth": "Medina, Saudi Arabia",
+          "height": "1.71 m",
+          "position": "Right-back"
+        },
+        "club_career": {
+          "current_club": "Al-Ittihad",
+          "previous_clubs": ["Ohod"],
+          "career_highlights": "Helped Ohod gain promotion to the Pro League in 2017. Joined Al-Ittihad in 2018 and became a regular, winning the 2022–23 league title and earning Young Player of the Month in March 2022."
+        },
+        "achievements": {
+          "caps": 4,
+          "goals": 0,
+          "tournaments": ["2023 AFC Asian Cup (squad)"],
+          "major_trophies": ["Saudi Pro League 2022–23 (Al-Ittihad)", "Saudi Super Cup 2022 (Al-Ittihad)", "AFC U-19 Championship 2018 (with Saudi U19)"],
+          "individual_awards": ["Saudi Pro League Young Player of the Month (March 2022)"]
+        }
+    },          
+    {
+        "personal_info": {
+          "full_name": "Saad Mohammed Misfer Al-Mousa Al-Qahtani",
+          "date_of_birth": "2002-12-10",
+          "place_of_birth": "Dammam, Saudi Arabia",
+          "height": "1.83 m",
+          "position": "Centre-back"
+        },
+        "club_career": {
+          "current_club": "Al-Ittihad",
+          "previous_clubs": ["Al-Ettifaq"],
+          "career_highlights": "Broke into Al-Ettifaq’s first team in 2022, earning Young Player of the Month in March 2023. Transferred to Al-Ittihad in 2024 after a successful loan, solidifying the defense in the 2024–25 season."
+        },
+        "achievements": {
+          "caps": 1,
+          "goals": 0,
+          "tournaments": [],
+          "major_trophies": ["Saudi Pro League 2022–23 (Al-Ittihad)"],
+          "individual_awards": ["Saudi Pro League Young Player of the Month (March 2023)"]
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Ali Mohammed Lajami",
+          "date_of_birth": "1996-04-24",
+          "place_of_birth": "Qatif, Saudi Arabia",
+          "height": "1.78 m",
+          "position": "Defender"
+        },
+        "club_career": {
+          "current_club": "Al-Nassr",
+          "previous_clubs": ["Al-Khaleej", "Al-Fateh"],
+          "career_highlights": "Joined Al-Nassr in 2020 and became a key defender, helping the club win the 2020 Saudi Super Cup and the 2023 Arab Club Champions Cup. Known for his versatility across the backline."
+        },
+        "achievements": {
+          "caps": 18,
+          "goals": 1,
+          "tournaments": ["2023 AFC Asian Cup (starter)"],
+          "major_trophies": ["Saudi Super Cup 2020", "Arab Club Champions Cup 2023"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Jehad Abdullatif Ahmed Thakri",
+          "date_of_birth": "2001-07-21",
+          "place_of_birth": "Khobar, Saudi Arabia",
+          "height": "1.83 m",
+          "position": "Centre-back"
+        },
+        "club_career": {
+          "current_club": "Al-Qadsiah",
+          "previous_clubs": [],
+          "career_highlights": "Became a starter for Al-Qadsiah in 2021. Played a pivotal role in Al-Qadsiah’s promotion campaign, as the club won the 2023–24 Yelo League (First Division)."
+        },
+        "achievements": {
+          "caps": 1,
+          "goals": 0,
+          "tournaments": [],
+          "major_trophies": ["First Division League 2023–24 (Al-Qadsiah)"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Ali Hassan Majrashi",
+          "date_of_birth": "1999-10-01",
+          "place_of_birth": "Saudi Arabia",
+          "height": "1.69 m",
+          "position": "Right-back"
+        },
+        "club_career": {
+          "current_club": "Al-Ahli",
+          "previous_clubs": ["Al-Shabab", "Al-Faisaly (loan)"],
+          "career_highlights": "Won the 2021 King’s Cup on loan at Al-Faisaly, starting in the final that gave Al-Faisaly their first King’s Cup title. Joined Al-Ahli in 2022 and helped the club win the First Division (Yellow League) in 2023."
+        },
+        "achievements": {
+          "caps": 4,
+          "goals": 0,
+          "tournaments": ["2021 FIFA Arab Cup (squad)"],
+          "major_trophies": ["King's Cup 2020–21 (Al-Faisaly)", "First Division League 2022–23 (Al-Ahli)"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Nawaf Mashari Abdulrahman Boushal",
+          "date_of_birth": "1999-09-16",
+          "place_of_birth": "Al-Hasa, Saudi Arabia",
+          "height": "1.73 m",
+          "position": "Right-back"
+        },
+        "club_career": {
+          "current_club": "Al-Nassr",
+          "previous_clubs": ["Al-Fateh"],
+          "career_highlights": "Broke through at Al-Fateh in 2019 and transferred to Al-Nassr in 2023. Part of Al-Nassr’s 2023 Arab Club Champions Cup winning squad."
+        },
+        "achievements": {
+          "caps": 6,
+          "goals": 0,
+          "tournaments": ["2021 FIFA Arab Cup (squad)", "2023 AFC Asian Cup (squad)"],
+          "major_trophies": ["Arab Club Champions Cup 2023"],
+          "individual_awards": ["Saudi Pro League Young Player of the Month (September 2021)"]
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Hassan Kadesh Mahboob",
+          "date_of_birth": "1992-09-27",
+          "place_of_birth": "Dammam, Saudi Arabia",
+          "height": "1.79 m",
+          "position": "Left-back"
+        },
+        "club_career": {
+          "current_club": "Al-Ittihad",
+          "previous_clubs": ["Al-Ettifaq", "Al-Hilal", "Al-Taawoun"],
+          "career_highlights": "Served as Al-Ettifaq captain before moving to Al-Hilal in 2017. Won the 2019 AFC Champions League with Al-Hilal. Became the most expensive Saudi transfer when joining Al-Ittihad in 2023."
+        },
+        "achievements": {
+          "caps": 12,
+          "goals": 2,
+          "tournaments": ["2023 AFC Asian Cup (starter)"],
+          "major_trophies": ["Saudi First Division 2015–16 (Al-Ettifaq)", "Saudi Pro League 2017–18 (Al-Hilal)", "AFC Champions League 2019 (Al-Hilal)"],
+          "individual_awards": []
+        }
+  },          
+      {
+        "personal_info": {
+          "full_name": "Hassan Mohammed Osama Al-Tambakti",
+          "date_of_birth": "1999-02-09",
+          "place_of_birth": "Riyadh, Saudi Arabia",
+          "height": "1.82 m",
+          "position": "Centre-back"
+        },
+        "club_career": {
+          "current_club": "Al-Hilal",
+          "previous_clubs": ["Al-Shabab", "Al-Wehda (loan)"],
+          "career_highlights": "Rose through Al-Shabab’s academy and debuted in 2019. Loaned to Al-Wehda in 2019–20. Transferred to Al-Hilal in 2023 for a record fee, becoming the most expensive Saudi player in history."
+        },
+        "achievements": {
+          "caps": 40,
+          "goals": 0,
+          "tournaments": ["2022 FIFA World Cup (starter)", "2023 AFC Asian Cup (starter)"],
+          "major_trophies": ["Saudi Pro League 2023–24 (Al-Hilal)", "AFC U-19 Championship 2018 (with Saudi U20)", "AFC U-23 Asian Cup 2022 (with Saudi U23)"],
+          "individual_awards": []
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Nasser Essa Shafi Al-Shardan Al-Dawsari",
+          "date_of_birth": "1998-12-19",
+          "place_of_birth": "Riyadh, Saudi Arabia",
+          "height": "1.78 m",
+          "position": "Left-back / Midfielder"
+        },
+        "club_career": {
+          "current_club": "Al-Hilal",
+          "previous_clubs": [],
+          "career_highlights": "One-club man at Al-Hilal since youth, with over 125 league appearances. Scored the fastest goal in AFC Champions League final history (16 seconds in 2021 final) to help Al-Hilal win the title."
+        },
+        "achievements": {
+          "caps": 30,
+          "goals": 0,
+          "tournaments": ["2022 FIFA World Cup", "2023 AFC Asian Cup"],
+          "major_trophies": ["AFC Champions League 2019 & 2021 (Al-Hilal)", "Saudi Pro League (5 titles with Al-Hilal)", "King’s Cup (3 titles)"],
+          "individual_awards": ["AFC Champions League Final – Fastest Goal (2021)"]
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Musab Fahd Al-Juwayr",
+          "date_of_birth": "2003-06-20",
+          "place_of_birth": "Riyadh, Saudi Arabia",
+          "height": "1.75 m",
+          "position": "Midfielder"
+        },
+        "club_career": {
+          "current_club": "Al-Shabab (on loan from Al-Hilal)",
+          "previous_clubs": ["Al-Hilal"],
+          "career_highlights": "Debuted for Al-Hilal in 2021, scoring his first senior goal in the Saudi Pro League that year. Won the 2021 AFC Champions League with Al-Hilal and later moved on loan to Al-Shabab in 2024 to gain regular playing time."
+        },
+        "achievements": {
+          "caps": 17,
+          "goals": 5,
+          "tournaments": ["2022 AFC U-23 Asian Cup (champion)", "2022 Asian Games (football)"],
+          "major_trophies": ["Saudi Pro League 2021–22 (Al-Hilal)", "AFC Champions League 2021 (Al-Hilal)", "Arab Cup U-20 2021 & 2022 (Saudi U20)"],
+          "individual_awards": ["Saudi Pro League Rising Star of the Month (multiple: Apr, Sep, Oct, Nov 2024 & Jan, Feb 2025)"]
+        }
+      },
+      {
+        "personal_info": {
+          "full_name": "Salem Mohammed Shafi Al-Dawsari",
+          "date_of_birth": "1991-08-19",
+          "place_of_birth": "Wadi ad-Dawasir, Saudi Arabia",
+          "height": "1.73 m",
+          "position": "Winger"
+        },
+        "club_career": {
+          "current_club": "Al-Hilal",
+          "previous_clubs": ["Villarreal (loan)"],
+          "career_highlights": "Spent his entire career at Al-Hilal, making over 300 appearances. Won a record number of domestic titles with the club, including 6 league championships, and two AFC Champions League titles (2019, 2021). Had a short loan at Villarreal (Spain) in 2018 as part of a development initiative."
+        },
+        "achievements": {
+          "caps": 96,
+          "goals": 25,
+          "tournaments": ["2018 FIFA World Cup", "2022 FIFA World Cup (scored vs Argentina)", "2015, 2019, 2023 AFC Asian Cup"],
+          "major_trophies": ["AFC Champions League 2019 & 2021 (Al-Hilal)", "Saudi Pro League (multiple titles)", "King’s Cup (multiple)"],
+          "individual_awards": ["AFC Champions League MVP 2021", "AFC Asian Player of the Year 2022"]
+        }
+  },          
+{
+  "personal_info": {
+    "full_name": "Ayman Yahya Salem Ahmed",
+    "date_of_birth": "2001-05-14",
+    "place_of_birth": "Riyadh, Saudi Arabia",
+    "height": "1.72 m",
+    "position": "Winger"
+  },
+  "club_career": {
+    "current_club": "Al-Nassr",
+    "previous_clubs": [],
+    "career_highlights": "Came through Al-Nassr’s youth ranks and broke into the first team in 2020. Contributed to Al-Nassr’s run in the 2021 AFC Champions League (scoring in the group stage) and became a regular starter by 2022."
+  },
+  "achievements": {
+    "caps": 14,
+    "goals": 0,
+    "tournaments": ["2020 AFC U-23 Championship (qualifiers)", "2022 Asian Games"],
+    "major_trophies": ["Arab Club Champions Cup 2023 (Al-Nassr)"],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Faisal Mohammed Al-Ghamdi",
+    "date_of_birth": "2001-08-13",
+    "place_of_birth": "Dammam, Saudi Arabia",
+    "height": "1.76 m",
+    "position": "Defensive midfielder"
+  },
+  "club_career": {
+    "current_club": "Beerschot (Belgium)",
+    "previous_clubs": ["Al-Ettifaq"],
+    "career_highlights": "Rose to prominence at Al-Ettifaq as a teenager, earning a transfer to Belgian club Beerschot in 2023, a pioneering move for a Saudi player. Regular starter in Belgium, gaining valuable European experience."
+  },
+  "achievements": {
+    "caps": 14,
+    "goals": 1,
+    "tournaments": ["2022 AFC U-23 Asian Cup (champion)"],
+    "major_trophies": [],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Muhanad Jameel Al-Saad",
+    "date_of_birth": "2003-06-29",
+    "place_of_birth": "Saudi Arabia",
+    "height": "1.80 m",
+    "position": "Midfielder"
+  },
+  "club_career": {
+    "current_club": "Dunkerque (France)",
+    "previous_clubs": ["Al-Qadsiah (youth)"],
+    "career_highlights": "Signed by French club USL Dunkerque in 2023, making his professional debut in Ligue 2. One of the few Saudis to play in France at a young age."
+  },
+  "achievements": {
+    "caps": 0,
+    "goals": 0,
+    "tournaments": ["2022 AFC U-19 Championship (qualification)"],
+    "major_trophies": [],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Turki Marwan Al-Ammar",
+    "date_of_birth": "1999-09-23",
+    "place_of_birth": "Riyadh, Saudi Arabia",
+    "height": "1.70 m",
+    "position": "Attacking midfielder"
+  },
+  "club_career": {
+    "current_club": "Al-Qadsiah",
+    "previous_clubs": ["Al-Shabab"],
+    "career_highlights": "Emerging from Al-Shabab’s academy, he won the AFC U-19 Championship MVP in 2018. Moved to Al-Qadsiah in 2023 to seek more playing time, helping them in their promotion chase."
+  },
+  "achievements": {
+    "caps": 10,
+    "goals": 1,
+    "tournaments": ["AFC U-19 Championship 2018 (champion, MVP)"],
+    "major_trophies": ["AFC U-19 Championship 2018&#8203;:contentReference[oaicite:154]{index=154}"],
+    "individual_awards": ["AFC U-19 Championship Most Valuable Player 2018"]
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Ziyad Mohammed Al-Johani",
+    "date_of_birth": "2001-11-11",
+    "place_of_birth": "Jeddah, Saudi Arabia",
+    "height": "1.73 m",
+    "position": "Midfielder"
+  },
+  "club_career": {
+    "current_club": "Al-Ahli",
+    "previous_clubs": [],
+    "career_highlights": "Promoted to Al-Ahli’s first team in 2021. Part of Al-Ahli’s squad that won the 2022–23 First Division (securing promotion back to the Pro League)."
+  },
+  "achievements": {
+    "caps": 1,
+    "goals": 0,
+    "tournaments": [],
+    "major_trophies": ["First Division League 2022–23 (Al-Ahli)"],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Mohamed Ibrahim Kanno",
+    "date_of_birth": "1994-09-22",
+    "place_of_birth": "Al-Khobar, Saudi Arabia",
+    "height": "1.92 m",
+    "position": "Central Midfielder"
+  },
+  "club_career": {
+    "current_club": "Al-Hilal",
+    "previous_clubs": ["Al-Ettifaq"],
+    "career_highlights": "Joined Al-Hilal in 2017 after starting at Al-Ettifaq. Key midfielder in Al-Hilal’s dominance, winning four league titles and two AFC Champions Leagues. Played for Al-Hilal in the 2019 FIFA Club World Cup final. Renowned for his box-to-box stamina."
+  },
+  "achievements": {
+    "caps": 62,
+    "goals": 5,
+    "tournaments": ["2018 FIFA World Cup (squad)", "2022 FIFA World Cup (played)"],
+    "major_trophies": ["Saudi Pro League (2017–18, 2019–20, 2020–21, 2021–22)&#8203;:contentReference[oaicite:155]{index=155}", "AFC Champions League 2019, 2021&#8203;:contentReference[oaicite:156]{index=156}"],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Ahmed Mohammed Al-Ghamdi",
+    "date_of_birth": "2001-09-21",
+    "place_of_birth": "Canada (raised in Saudi Arabia)",
+    "height": "1.74 m",
+    "position": "Midfielder"
+  },
+  "club_career": {
+    "current_club": "Neom (Saudi Arabia)",
+    "previous_clubs": ["Al-Shabab"],
+    "career_highlights": "Began at Al-Shabab. In 2023, became one of the first signings of new club Neom United, aiming to build a competitive side in the Saudi league’s future city project."
+  },
+  "achievements": {
+    "caps": 3,
+    "goals": 0,
+    "tournaments": ["2022 AFC U-23 Asian Cup (participated)"],
+    "major_trophies": ["WAFF U-23 Championship 2022 (Saudi U23)"],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Marwan Saad Al-Sahafi",
+    "date_of_birth": "2004-02-17",
+    "place_of_birth": "Saudi Arabia",
+    "height": "1.79 m",
+    "position": "Forward"
+  },
+  "club_career": {
+    "current_club": "Beerschot (Belgium)",
+    "previous_clubs": ["Al-Ahli (youth)"],
+    "career_highlights": "Signed by K. Beerschot VA in 2023, making appearances in the Belgian First Division B. A promising young striker making strides in European football."
+  },
+  "achievements": {
+    "caps": 7,
+    "goals": 0,
+    "tournaments": ["2022 AFC U-19 Championship"],
+    "major_trophies": [],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Firas Tariq Al-Buraikan",
+    "date_of_birth": "2000-05-14",
+    "place_of_birth": "Riyadh, Saudi Arabia",
+    "height": "1.81 m",
+    "position": "Striker"
+  },
+  "club_career": {
+    "current_club": "Al-Ahli",
+    "previous_clubs": ["Al-Nassr", "Al-Fateh"],
+    "career_highlights": "Debuted at 18 with Al-Nassr. Became Al-Fateh’s top scorer in 2021–2023, prompting a high-profile transfer to Al-Ahli in 2023. Scored on his Al-Ahli debut and quickly became the club’s leading striker."
+  },
+  "achievements": {
+    "caps": 49,
+    "goals": 9,
+    "tournaments": ["2022 FIFA World Cup (played in all group matches)"],
+    "major_trophies": ["Arab Club Champions Cup 2023 (Al-Nassr)"],
+    "individual_awards": []
+  }
+},
+{
+  "personal_info": {
+    "full_name": "Abdullah Abdulrahman Al-Hamdan",
+    "date_of_birth": "1999-09-13",
+    "place_of_birth": "Riyadh, Saudi Arabia",
+    "height": "1.80 m",
+    "position": "Striker"
+  },
+  "club_career": {
+    "current_club": "Al-Hilal",
+    "previous_clubs": ["Al-Shabab"],
+    "career_highlights": "Emerging from Al-Shabab’s youth, he led Saudi Arabia’s attack at the 2020 Olympics. Moved to Al-Hilal in 2021, where he contributed to league and cup victories. Scored a decisive goal in the 2021 King’s Cup semifinal for Al-Hilal."
+  },
+  "achievements": {
+    "caps": 38,
+    "goals": 8,
+    "tournaments": ["2020 Tokyo Olympics (U-23)", "2022 FIFA World Cup (squad)"],
+    "major_trophies": ["Saudi Pro League 2021–22 (Al-Hilal)", "King’s Cup 2022–23 (Al-Hilal)"],
+    "individual_awards": []
+  }
+},
+      
+
+      {
+        "personal_info": {
+          "full_name": "Abdullah Ibrahim Al-Salem",
+          "date_of_birth": "1992-12-19",
+          "place_of_birth": "Qatif, Saudi Arabia",
+          "height": "1.84 m",
+          "position": "Striker"
+        },
+        "club_career": {
+          "current_club": "Al-Khaleej",
+          "previous_clubs": ["Al-Ettifaq", "Al-Nassr", "Al-Hilal (loan)"],
+          "career_highlights": "A veteran forward who played for several Pro League clubs. Joined Al-Khaleej in 2022 and was the club’s top scorer in the 2022–23 season, helping them avoid relegation."
+        },
+        "achievements": {
+          "caps": 1,
+          "goals": 0,
+          "tournaments": ["2023 Arabian Gulf Cup (squad)"],
+          "major_trophies": [],
+          "individual_awards": []
+        }
+      }
+    ]
+  }
+  

@@ -1,0 +1,20 @@
+ [
+        {
+            "type": "Offside",
+            "description": "Attacking player was in an offside position when the ball was played",
+            "decision": "Free kick to defending team",
+            "match_context": "Potential goal-scoring opportunity"
+        },
+        {
+            "type": "Penalty",
+            "description": "Defensive player made a clear foul inside the penalty box",
+            "decision": "Penalty kick awarded",
+            "match_context": "Critical moment in match"
+        },
+        {
+            "type": "Yellow Card",
+            "description": "Repeated tactical fouls by midfielder",
+            "decision": "Caution given to player",
+            "match_context": "Preventing counter-attack"
+        }
+    ]

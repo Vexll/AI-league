@@ -36,6 +36,7 @@ roadmap_gen = RoadmapGenerator()
 audio_processor = AudioDescriptionProcessor()
 emergency_bot = EmergencyReportingBot()
 
+
 # Existing endpoints
 @app.post("/preorder/chat")
 async def handle_preorder(request: dict):
@@ -45,13 +46,15 @@ async def handle_preorder(request: dict):
 
 @app.post("/roadmap/generate")
 async def generate_roadmap(request: dict):
-    user_inputs = process_flutter_input(request["data"]) 
-    image = roadmap_gen(user_input)  # input: json file, output: image 
-    return image 
+    user_inputs = process_flutter_input(request["data"])
+    image = roadmap_gen(user_input)  # input: json file, output: image
+    return image
+
 
 @app.post("/audio/process")
 async def process_audio(request: dict):
     return audio_processor.handle_flutter_upload(request["video"])
+
 
 # New endpoint for emergency reporting chatbot
 @app.post("/emergency/chat")
@@ -69,13 +72,10 @@ async def handle_emergency_report(request: dict):
         response = emergency_bot.process_message(
             message=request.get("message", ""),
             image_data=request.get("image_data"),
-            conversation_history=request.get("conversation_history", [])
+            conversation_history=request.get("conversation_history", []),
         )
         return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing emergency report: {str(e)}")
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "online", "timestamp": datetime.datetime.now().isoformat()}
+        raise HTTPException(
+            status_code=500, detail=f"Error processing emergency report: {str(e)}"
+        )

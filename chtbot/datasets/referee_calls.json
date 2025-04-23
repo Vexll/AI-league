@@ -1,5 +1,4 @@
-{
-    "referee_calls": [
+ [
         {
             "type": "Offside",
             "description": "Attacking player was in an offside position when the ball was played",
@@ -19,4 +18,3 @@
             "match_context": "Preventing counter-attack"
         }
     ]
-}

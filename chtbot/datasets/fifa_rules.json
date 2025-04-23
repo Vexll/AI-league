@@ -1,5 +1,4 @@
-{
-    "fifa_rules": [
+ [
         {
             "rule_number": "11",
             "title": "Offside Rule",
@@ -16,4 +15,3 @@
             "description": "A yellow card is a caution for unsporting behavior. A red card means the player is sent off. Two yellow cards in the same match result in a red card and ejection from the game. Red cards can be issued for serious foul play, violent conduct, or other severe infractions."
         }
     ]
-}

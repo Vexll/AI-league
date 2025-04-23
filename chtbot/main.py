@@ -6,7 +6,7 @@ from typing import Dict, Any
 # ===================== Memory =====================
 
 class ConversationMemory:
-    def __init__(self, max_history_length=10_000):
+    def __init__(self, max_history_length=10000):
         self.memory = []
         self.max_history_length = max_history_length
         self.length = 0
@@ -28,42 +28,36 @@ class ConversationMemory:
 
 # ===================== Base Agent =====================
 
+
 class BaseAgent:
-    def __init__(self):
-        self.datasets = self.load_datasets()
-    
-    def load_datasets(self):
-        datasets = {}
-        datasets_path = 'datasets'
-        os.makedirs(datasets_path, exist_ok=True)
+    def __init__(self, dataset_filename: str = None):
+        self.dataset_filename = dataset_filename
+        self.dataset = self.load_dataset()
 
-        for filename in os.listdir(datasets_path):
-            if filename.endswith('.json'):
-                filepath = os.path.join(datasets_path, filename)
-                try:
-                    with open(filepath, 'r') as f:
-                        dataset_name = filename.split('.')[0]
-                        datasets[dataset_name] = json.load(f)
-                except Exception as e:
-                    print(f"Error loading dataset {filename}: {e}")
-        
-        return datasets
+    def load_dataset(self):
+        if not self.dataset_filename:
+            return None
+        try:
+            path = os.path.join('datasets', self.dataset_filename)
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading dataset {self.dataset_filename}: {e}")
+            return None
 
-    def generate_response(self, query: str, memory: ConversationMemory) -> str:
+    def get_relevant_dataset_info(self):
+        if self.dataset:
+            return f"Dataset info: {json.dumps(self.dataset)}"
+        return ""
+
+    def generate_response(self, query: str, memory: 'ConversationMemory') -> str:
         try:
             messages = [
                 {"role": "system", "content": self.get_system_prompt()},
-                {"role": "system", "content": f"Available datasets: {', '.join(self.datasets.keys())}"},
-                {"role": "system", "content": memory.get_conversation_context()}
+                {"role": "system", "content": self.get_relevant_dataset_info()},
+                {"role": "system", "content": memory.get_conversation_context()},
+                {"role": "user", "content": query}
             ]
-
-            for dataset_name, content in self.datasets.items():
-                messages.append({
-                    "role": "system",
-                    "content": f"Dataset for {dataset_name}: {json.dumps(content)}"
-                })
-
-            messages.append({"role": "user", "content": query})
 
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
@@ -77,70 +71,70 @@ class BaseAgent:
     def get_system_prompt(self):
         raise NotImplementedError("Subclasses must implement this")
 
+
 # ===================== Specialized Agents =====================
 
 class FoodAgent(BaseAgent):
+    def __init__(self):
+        super().__init__('restaurants.json')
+
     def get_system_prompt(self):
-        return """
-You are a helpful food and restaurant assistant.
-Assist with orders, menus, dietary needs, and be friendly and informative.
-"""
+        return "You are a helpful food and restaurant assistant."
 
 class SportsAgent(BaseAgent):
-    def get_system_prompt(self):
-        return """
-You are a sports assistant. Explain rules, give match info, and help with sports-related queries.
-"""
+    def __init__(self):
+        super().__init__('fifa_rules.json')
 
-class ReportingAgent(BaseAgent):
     def get_system_prompt(self):
-        return """
-You are a report assistant
-You will receive a concern or report from a customer, tell them that it is reported and will be fixed soon, etc.
-"""
+        return "You are a sports assistant for match rules and general sports info."
 
 class GeneralAgent(BaseAgent):
+    def __init__(self):
+        super().__init__(None)
+
     def get_system_prompt(self):
-        return """
-You are a general assistant for various topics not covered by food or sports.
-Be helpful and versatile.
-"""
+        return "You are a general-purpose assistant."
+
 class ClubHistoryAgent(BaseAgent):
+    def __init__(self):
+        super().__init__('Saudi Team.json')
+
     def get_system_prompt(self):
         return """
         You are an assistant specialized in international football clubs related to Saudi Arabia.
-        You provide information on:
-        - Major Historical Achievements
-        - Current Team Highlights
-        - Recent FIFA Ranking and Performance Trends
-        - Current Squad Information
-        Be factual and refer only to the relevant club data.
+        Provide info on achievements, current team, FIFA ranking, and current squad.
+        """
+
+class Match_Momments(BaseAgent):
+    def __init__(self):
+        super().__init__('key_momments.json')
+
+    def get_system_prompt(self):
+        return """
+        You are an assistant specialized in providing key moments of matches related to Saudi Arabia.
         """
 
 class PlayerHistoryAgent(BaseAgent):
+    def __init__(self):
+        super().__init__('players.json')
+
     def get_system_prompt(self):
         return """
-        You are an assistant that provides international club history for Saudi football players.
-        Provide:
-        - Personal Info
-        - Club Career (current and past clubs)
-        - Achievements (trophies, records, international appearances)
+        You provide history for Saudi football players: club career, personal info, achievements.
         """
 
 class ChantAgent(BaseAgent):
+    def __init__(self):
+        super().__init__('chant.json')
+
     def get_system_prompt(self):
         return """
-        You are an assistant that handles Saudi Arabia National Football Team chants.
-        You describe the chant or translate it for non-Arabic speakers.
-        Format responses with:
-        - Chant Title
-        - Lyrics
-        - Description or Translation
-        Be culturally sensitive and engaging.
+        You describe or translate chants of the Saudi National Football Team. Include title, lyrics, and meaning.
         """
 
-# ===================== Modified LLMTeacher =====================
+        
 
+# ===================== Modified LLMTeacher =====================
 class LLMTeacher:
     def __init__(self):
         self.students = {
@@ -159,9 +153,9 @@ class LLMTeacher:
             - food
             - sports
             - general
-            - club_history (international football clubs related to Saudi Arabia)
-            - player_history (Saudi player international club history)
-            - chants (Saudi national team chants)
+            - club_history
+            - player_history
+            - chants
             Just respond with the category.
             """
             response = openai.ChatCompletion.create(
@@ -175,16 +169,11 @@ class LLMTeacher:
             category = response.choices[0].message.content.strip().lower()
             if category not in self.students:
                 category = 'general'
-            return {
-                'agent': self.students[category],
-                'category': category
-            }
+            return {'agent': self.students[category], 'category': category}
         except Exception as e:
             print(f"Routing failed: {e}")
-            return {
-                'agent': self.students['general'],
-                'category': 'general'
-            }
+            return {'agent': self.students['general'], 'category': 'general'}
+
 
 # ===================== Final Chatbot API Handler =====================
 
@@ -192,9 +181,8 @@ class PreorderAgent:
     def __init__(self):
         self.teacher = LLMTeacher()
         self.memory = ConversationMemory()
-    
+
     def process_order(self, query: str, memory_input: list):
-        # Optional: Load existing memory if sent from frontend
         if memory_input:
             self.memory.memory = memory_input
 
@@ -207,3 +195,4 @@ class PreorderAgent:
             "memory": self.memory.memory,
             "category": routing_result['category']
         }
+

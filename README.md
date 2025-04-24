@@ -127,8 +127,6 @@ Ticket booking integration
 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 Developed with ❤️ by the SportsMate team
 Making sports experiences more accessible, enjoyable, and memorable through AI

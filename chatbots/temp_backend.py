@@ -1,116 +1,132 @@
-from fastapi import FastAPI, HTTPException
+import os
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel, Field
-from typing import Dict, Any, List, Optional
+from typing import List, Optional
 import openai
 from preorder_chatbot.main import PreorderAgent
 from report_chatbot.main import EmergencyReportingBot
+from dotenv import load_dotenv
 
+load_dotenv()
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 # API_key
 app = FastAPI()
 
 # --- Pydantic Models for Request/Response ---
 
-
-class MemoryItem(BaseModel):
-    user: str
-    bot: str
-
-
 class ChatRequest(BaseModel):
     query: str
-    memory_input: List[MemoryItem] = Field(
-        default_factory=list
-    )  # Use default_factory for mutable default
-
+    image_data: Optional[str] = None  # Optional base64 encoded image
 
 class ChatResponse(BaseModel):
     response: str
-    memory: List[MemoryItem]
-    category: str
-
-
-class ConversationItem(BaseModel):
-    role: str
-    content: str
-
-
-class ReportRequest(BaseModel):
-    message: Optional[str] = None
-    image_data: Optional[str] = None  # Expecting base64 encoded string
-    conversation_history: List[ConversationItem] = Field(default_factory=list)
-
-
-class ReportResponse(BaseModel):
-    response: str
-    conversation: List[ConversationItem]
-    report_saved: bool
-    report_path: Optional[str]
-
 
 # --- Instantiate the Chatbot Agent ---
 # This is created once when the server starts
 preorder_chatbot = PreorderAgent()
 report_chatbot = EmergencyReportingBot()
 
-# --- API Endpoint ---
+# Store conversation memory for each chatbot
+preorder_memory = []
+report_memory = []
 
+# --- API Endpoint ---
 
 @app.post("/pchat", response_model=ChatResponse)
 async def handle_chat(request: ChatRequest):
     """
-    Process a user query using the chatbot.
+    Process a user query using the preorder chatbot.
 
     - **query**: The user's message.
-    - **memory_input**: The conversation history (list of user/bot interactions).
-                       Send an empty list `[]` for the start of a conversation.
+    - **image_data**: Optional base64 encoded image.
     """
-    print(f"Received query: {request.query}")  # Log received query
-    print(f"Received memory length: {len(request.memory_input)}")  # Log memory length
-
-    # Convert Pydantic MemoryItem objects to simple dicts for the chatbot logic
-    memory_dict_list = [item.model_dump() for item in request.memory_input]
-
+    global preorder_memory
+    
     try:
         result = preorder_chatbot.process_order(
-            query=request.query, memory_input=memory_dict_list
+            query=request.query, 
+            memory_input=preorder_memory
         )
-        # No need to manually create ChatResponse, FastAPI handles it via response_model
-        return result
+        
+        # Update global memory with new conversation
+        preorder_memory = result["memory"]
+        
+        # Return only the response
+        return {"response": result["response"]}
+    
     except Exception as e:
         print(f"Error processing request: {e}")  # Log the exception
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {e}")
 
-
-@app.post("/rchat", response_model=ReportResponse)
-async def handle_emergency_report(request: ReportRequest):
+@app.post("/rchat", response_model=ChatResponse)
+async def handle_emergency_report(request: ChatRequest):
     """
-    Receives user message and optional image (base64) for emergency reporting.
+    Process a query using the emergency reporting chatbot.
+    
+    - **query**: The user's message.
+    - **image_data**: Optional base64 encoded image.
     """
-    if not request.message and not request.image_data:
-        raise HTTPException(status_code=400, detail="Request must contain at least a message or image_data.")
-
-    # Convert Pydantic models back to simple dicts for the bot function if needed
-    history_list = [item.model_dump() for item in request.conversation_history]
-
+    global report_memory
+    
     try:
         # Call the bot's processing method
         result = report_chatbot.process_message(
-            message=request.message,
+            message=request.query,
             image_data=request.image_data,
-            conversation_history=history_list
+            conversation_history=report_memory
         )
-
-        # Convert result conversation back to Pydantic model for validation (optional but good practice)
-        # If the bot returns the correct structure, direct return is fine with response_model
-        # result["conversation"] = [ConversationItem(**item) for item in result.get("conversation", [])]
-
-        return result
-
+        
+        # Update memory
+        report_memory = result["conversation"]
+        
+        # Return only the response
+        return {"response": result["response"]}
+        
     except Exception as e:
-        print(f"Error processing request: {e}")  # Log the exception
+        print(f"Error processing request: {e}")
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {e}")
+
+@app.post("/audio-chat", response_model=ChatResponse)
+async def handle_audio_chat(audio: UploadFile = File(...)):
+    """
+    Process an audio file by:
+    1. Converting speech to text
+    2. Sending the transcribed text to the preorder chatbot
+    3. Returning the chatbot's response
+    
+    - **audio**: An audio file containing speech
+    """
+    global preorder_memory
+    
+    try:
+        # Convert speech to text
+        transcribed_text = ""
+        
+        print(f"Transcribed text: {transcribed_text}")
+        
+        # Process the transcribed text with the preorder chatbot
+        result = preorder_chatbot.process_order(
+            query=transcribed_text, 
+            memory_input=preorder_memory
+        )
+        
+        # Update global memory with new conversation
+        preorder_memory = result["memory"]
+        
+        # Return only the response
+        return {"response": result["response"]}
+    
+    except Exception as e:
+        print(f"Error processing audio request: {e}")  # Log the exception
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {e}")
 
 
-@app.get("/")
-async def root():
-    return {"message": "Chatbot API is running. Use the /chat endpoint to interact."}
+
+@app.post("/clear")
+async def clear_memory():
+    """Clear the chatbot's memory"""
+    global preorder_memory
+    global report_memory
+    preorder_memory = []
+    report_memory = []
+    return {"message": "chatbot memory cleared successfully"}

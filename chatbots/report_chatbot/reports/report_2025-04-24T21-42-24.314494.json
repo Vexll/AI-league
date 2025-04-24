@@ -1,0 +1,17 @@
+{
+    "timestamp": "2025-04-24T21:42:24.314494",
+    "user_message": "hey",
+    "image_provided": false,
+    "image_caption": null,
+    "ai_response": "Hello! How can I assist you today?",
+    "conversation": [
+        {
+            "role": "user",
+            "content": "hey"
+        },
+        {
+            "role": "assistant",
+            "content": "Hello! How can I assist you today?"
+        }
+    ]
+}

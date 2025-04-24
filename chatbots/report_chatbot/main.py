@@ -14,10 +14,6 @@ from typing import List, Dict, Optional, Any, Union
 class EmergencyReportingBot:
     def __init__(self):
         """Initialize the Emergency Reporting Bot"""
-        # Set up OpenAI API key
-        self.api_key = "YOUR_OPENAI_API_KEY"
-        openai.api_key = self.api_key
-
         # Initialize image captioning model
         self.processor = BlipProcessor.from_pretrained(
             "Salesforce/blip-image-captioning-base"
@@ -27,9 +23,8 @@ class EmergencyReportingBot:
         )
 
         # Create reports directory if it doesn't exist
-        self.reports_dir = (
-            r"C:\Users\Hatim\Desktop\Ai_Legue\report_chatbot\reoprts_json"
-        )
+        current_path = os.path.dirname(os.path.abspath(__file__))
+        self.reports_dir = os.path.join(current_path, "reports")
         os.makedirs(self.reports_dir, exist_ok=True)
 
         # Define system prompt

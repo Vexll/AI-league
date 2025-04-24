@@ -220,6 +220,7 @@ class PreorderAgent:
         self.teacher = LLMTeacher()
         self.memory = ConversationMemory()
         self.last_order_intent = None  # For tracking orders
+        self.conversations = {}  
 
     def process_order(self, query: str, memory_input: list):
         if memory_input:

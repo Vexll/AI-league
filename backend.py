@@ -79,3 +79,43 @@ async def handle_emergency_report(request: dict):
         raise HTTPException(
             status_code=500, detail=f"Error processing emergency report: {str(e)}"
         )
+
+
+class DeleteChatHistoryRequest(BaseModel):
+    conversation_id: Optional[str] = None  # If None, clear all conversations
+
+@app.post("/chat/delete_history")
+async def delete_chat_history(request: DeleteChatHistoryRequest):
+    """
+    Deletes chat history for a specific conversation or all conversations.
+    
+    If conversation_id is provided, only that conversation's history will be deleted.
+    If conversation_id is None, all chat histories will be deleted.
+    
+    Returns:
+        dict: Status message indicating success or failure
+    """
+    try:
+        # For the PreorderAgent specifically
+        if request.conversation_id:
+            # If you're tracking conversations by ID in the future
+            # This would need to be adapted to your conversation storage mechanism
+            if hasattr(preorder_bot, 'conversations') and request.conversation_id in preorder_bot.conversations:
+                preorder_bot.conversations[request.conversation_id].memory = ConversationMemory()
+                return {"status": "success", "message": f"Chat history for conversation {request.conversation_id} cleared successfully"}
+            else:
+                return {"status": "error", "message": f"Conversation {request.conversation_id} not found"}
+        else:
+            # Clear the default memory
+            preorder_bot.memory = ConversationMemory()
+            
+            # Also clear emergency_bot memory if it exists
+            if hasattr(emergency_bot, 'memory'):
+                emergency_bot.memory = ConversationMemory()
+            
+            return {"status": "success", "message": "All chat histories cleared successfully"}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Error deleting chat history: {str(e)}"
+        )

@@ -97,6 +97,9 @@ class EmergencyReportingBot:
             
         return report_path
 
+
+    
+
     def process_message(self, message: str, image_data: Optional[str] = None, conversation_history: List[Dict[str, str]] = None) -> Dict[str, Any]:
         """
         Process incoming message and generate a response

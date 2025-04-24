@@ -1,0 +1,17 @@
+{
+    "timestamp": "2025-04-25T00:08:30.497548",
+    "user_message": "الو",
+    "image_provided": false,
+    "image_caption": null,
+    "ai_response": "مرحباً، كيف يمكنني مساعدتك اليوم؟",
+    "conversation": [
+        {
+            "role": "user",
+            "content": "الو"
+        },
+        {
+            "role": "assistant",
+            "content": "مرحباً، كيف يمكنني مساعدتك اليوم؟"
+        }
+    ]
+}

@@ -1,15 +1,22 @@
 import os
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from pydantic import BaseModel, Field
-from typing import List, Optional
+from pydantic import BaseModel
+from typing import Optional
 import openai
-from preorder_chatbot.main import PreorderAgent
+from preorder_chatbot.main import PreorderAgent, AudioProcessor
 from report_chatbot.main import EmergencyReportingBot
 from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.environ.get("OPENAI_API_KEY")
-# API_key
+
+# --- Instantiate the Chatbot Agent ---
+# This is created once when the server starts
+preorder_chatbot = PreorderAgent()
+report_chatbot = EmergencyReportingBot()
+audio_processor = AudioProcessor()
+
+# Start FastAPI
 app = FastAPI()
 
 # --- Pydantic Models for Request/Response ---
@@ -21,17 +28,11 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
 
-# --- Instantiate the Chatbot Agent ---
-# This is created once when the server starts
-preorder_chatbot = PreorderAgent()
-report_chatbot = EmergencyReportingBot()
-
 # Store conversation memory for each chatbot
 preorder_memory = []
 report_memory = []
 
 # --- API Endpoint ---
-
 @app.post("/pchat", response_model=ChatResponse)
 async def handle_chat(request: ChatRequest):
     """
@@ -87,7 +88,7 @@ async def handle_emergency_report(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {e}")
 
 @app.post("/audio-chat", response_model=ChatResponse)
-async def handle_audio_chat(audio: UploadFile = File(...)):
+async def handle_audio_chat(file: UploadFile = File(...)):
     """
     Process an audio file by:
     1. Converting speech to text
@@ -100,7 +101,8 @@ async def handle_audio_chat(audio: UploadFile = File(...)):
     
     try:
         # Convert speech to text
-        transcribed_text = ""
+        print(f'received {file.filename}')
+        transcribed_text = audio_processor.transcribe_audio(file.file)
         
         print(f"Transcribed text: {transcribed_text}")
         

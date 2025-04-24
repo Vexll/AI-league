@@ -1,7 +1,30 @@
+from io import BytesIO
 import json
 import os
 import openai
-from typing import Dict, Any
+from typing import Dict, Any, Optional
+
+class AudioProcessor:
+    """Handles audio transcription using OpenAI's Whisper API"""
+    
+    def _init_(self, api_key: Optional[str] = None):
+        """Initialize the audio processor with OpenAI API key"""
+        if api_key:
+            openai.api_key = api_key
+        # Otherwise, assumes API key is set via environment variable
+    
+    def transcribe_audio(self, audio_file: BytesIO) -> str:
+        """Transcribe audio file to text using OpenAI's Whisper model"""
+        try:
+            transcript = openai.Audio.transcribe(
+                model="whisper-1",
+                file=audio_file,
+            )
+            return transcript.text
+        except Exception as e:
+            print(f"Error transcribing audio: {e}")
+            return f"Error transcribing audio: {e}"
+
 
 # ===================== Memory =====================
 

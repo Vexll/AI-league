@@ -2,9 +2,10 @@ from main import PreorderAgent
 import openai
 
 # 1. Replace with your actual API key
-
+API_KEY = ""
 # 2. Import your full chatbot code (if in another file, like chatbot.py, use: from chatbot import PreorderAgent)
 # Assuming all your classes are already in this same script as shown in your code above
+
 
 def run_chatbot():
     bot = PreorderAgent()

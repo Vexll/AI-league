@@ -10,21 +10,28 @@ from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from typing import List, Dict, Optional, Any, Union
 
+
 class EmergencyReportingBot:
     def __init__(self):
         """Initialize the Emergency Reporting Bot"""
         # Set up OpenAI API key
         self.api_key = "YOUR_OPENAI_API_KEY"
         openai.api_key = self.api_key
-        
+
         # Initialize image captioning model
-        self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-        self.image_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
-        
+        self.processor = BlipProcessor.from_pretrained(
+            "Salesforce/blip-image-captioning-base"
+        )
+        self.image_model = BlipForConditionalGeneration.from_pretrained(
+            "Salesforce/blip-image-captioning-base"
+        )
+
         # Create reports directory if it doesn't exist
-        self.reports_dir = r"C:\Users\Hatim\Desktop\Ai_Legue\report_chatbot\reoprts_json"
+        self.reports_dir = (
+            r"C:\Users\Hatim\Desktop\Ai_Legue\report_chatbot\reoprts_json"
+        )
         os.makedirs(self.reports_dir, exist_ok=True)
-        
+
         # Define system prompt
         self.system_prompt = """
         أنت مساعد ذكي مخصص لتلقي بلاغات الطوارئ داخل الملاعب، يعمل من خلال واجهة محادثة تفاعلية (مثل واتساب أو تيليجرام). وظيفتك هي:
@@ -55,7 +62,7 @@ class EmergencyReportingBot:
             # Remove data URL prefix if present
             if "base64," in image_data:
                 image_data = image_data.split("base64,")[1]
-                
+
             image_bytes = base64.b64decode(image_data)
             image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
             return image
@@ -82,48 +89,50 @@ class EmergencyReportingBot:
                 messages=conversation,
                 temperature=0.7,
             )
-            return response['choices'][0]['message']['content']
+            return response["choices"][0]["message"]["content"]
         except Exception as e:
             print(f"Error generating response: {str(e)}")
             return "عذراً، حدث خطأ في معالجة طلبك. حاول مرة أخرى لاحقاً. (Sorry, there was an error processing your request. Please try again later.)"
 
     def save_report(self, data: Dict[str, Any]) -> str:
         """Save report to JSON file"""
-        timestamp = datetime.datetime.now().isoformat().replace(':', '-')
+        timestamp = datetime.datetime.now().isoformat().replace(":", "-")
         report_path = os.path.join(self.reports_dir, f"report_{timestamp}.json")
-        
+
         with open(report_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
-            
+
         return report_path
 
-
-    
-
-    def process_message(self, message: str, image_data: Optional[str] = None, conversation_history: List[Dict[str, str]] = None) -> Dict[str, Any]:
+    def process_message(
+        self,
+        message: str,
+        image_data: Optional[str] = None,
+        conversation_history: List[Dict[str, str]] = None,
+    ) -> Dict[str, Any]:
         """
         Process incoming message and generate a response
-        
+
         Args:
             message: User's text message
             image_data: Optional base64 encoded image data
             conversation_history: Previous conversation history
-            
+
         Returns:
             Dictionary containing the response and updated conversation
         """
         # Initialize conversation if not provided
         if conversation_history is None:
             conversation_history = []
-            
+
         # Create full conversation with system prompt
         full_conversation = [{"role": "system", "content": self.system_prompt}]
         full_conversation.extend(conversation_history)
-        
+
         # Add user's new message
         if message:
             full_conversation.append({"role": "user", "content": message})
-        
+
         # Process image if provided
         image_caption = None
         if image_data:
@@ -131,14 +140,19 @@ class EmergencyReportingBot:
             if image:
                 image_caption = self.analyze_image(image)
                 # Add image description to conversation
-                full_conversation.append({"role": "user", "content": f"[Image uploaded] Description: {image_caption}"})
-        
+                full_conversation.append(
+                    {
+                        "role": "user",
+                        "content": f"[Image uploaded] Description: {image_caption}",
+                    }
+                )
+
         # Generate AI response
         ai_response = self.generate_response(full_conversation)
-        
+
         # Add AI response to conversation
         full_conversation.append({"role": "assistant", "content": ai_response})
-        
+
         # Create report data
         report_data = {
             "timestamp": datetime.datetime.now().isoformat(),
@@ -146,16 +160,20 @@ class EmergencyReportingBot:
             "image_provided": bool(image_data),
             "image_caption": image_caption,
             "ai_response": ai_response,
-            "conversation": full_conversation[1:]  # Exclude system prompt from saved conversation
+            "conversation": full_conversation[
+                1:
+            ],  # Exclude system prompt from saved conversation
         }
-        
+
         # Save report
         report_path = self.save_report(report_data)
-        
+
         # Return response
         return {
             "response": ai_response,
-            "conversation": full_conversation[1:],  # Return conversation without system prompt
+            "conversation": full_conversation[
+                1:
+            ],  # Return conversation without system prompt
             "report_saved": True,
-            "report_path": report_path
+            "report_path": report_path,
         }

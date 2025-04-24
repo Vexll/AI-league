@@ -132,6 +132,42 @@ class ChantAgent(BaseAgent):
         You describe or translate chants of the Saudi National Football Team. Include title, lyrics, and meaning.
         """
 
+class PlaceOrderAgent(BaseAgent):
+    def __init__(self):
+        super().__init__(None)  # No dataset needed for order placement
+
+    def get_system_prompt(self):
+        return """
+        You are an order assistant. When the user confirms they want to place an order,
+        confirm their request, summarize what they want, then save the order.
+        Respond with:
+        - Order Summary
+        - Ask for confirmation (yes/no)
+        After confirmation, respond with a message like:
+        "Your order has been placed successfully. Your order number is: X."
+        """
+
+    def save_order(self, order_details: str):
+        order_path = 'orders.json'
+        if not os.path.exists(order_path):
+            with open(order_path, 'w') as f:
+                json.dump([], f)
+
+        with open(order_path, 'r') as f:
+            orders = json.load(f)
+
+        new_order = {
+            "order_number": len(orders) + 1,
+            "details": order_details
+        }
+        orders.append(new_order)
+
+        with open(order_path, 'w') as f:
+            json.dump(orders, f, indent=2)
+
+        return new_order["order_number"]
+
+
         
 
 # ===================== Modified LLMTeacher =====================
@@ -143,7 +179,8 @@ class LLMTeacher:
             'general': GeneralAgent(),
             'club_history': ClubHistoryAgent(),
             'player_history': PlayerHistoryAgent(),
-            'chants': ChantAgent()
+            'chants': ChantAgent(),
+            'place_order': PlaceOrderAgent()  # ✅ New
         }
 
     def route_query(self, query: str) -> Dict[str, Any]:
@@ -156,6 +193,7 @@ class LLMTeacher:
             - club_history
             - player_history
             - chants
+            - place_order
             Just respond with the category.
             """
             response = openai.ChatCompletion.create(
@@ -175,12 +213,13 @@ class LLMTeacher:
             return {'agent': self.students['general'], 'category': 'general'}
 
 
-# ===================== Final Chatbot API Handler =====================
 
+# ===================== Final Chatbot API Handler =====================
 class PreorderAgent:
     def __init__(self):
         self.teacher = LLMTeacher()
         self.memory = ConversationMemory()
+        self.last_order_intent = None  # For tracking orders
 
     def process_order(self, query: str, memory_input: list):
         if memory_input:
@@ -188,11 +227,25 @@ class PreorderAgent:
 
         routing_result = self.teacher.route_query(query)
         agent = routing_result['agent']
+        category = routing_result['category']
+
         response = agent.generate_response(query, self.memory)
         self.memory.add_interaction(query, response)
+
+        if category == "place_order":
+            if "yes" in query.lower():
+                # Confirming previous order
+                if self.last_order_intent:
+                    order_number = agent.save_order(self.last_order_intent)
+                    response = f"✅ Your order has been placed successfully. Your order number is: {order_number}."
+                    self.memory.add_interaction(query, response)
+                    self.last_order_intent = None
+            else:
+                self.last_order_intent = query  # Save what the user asked to order
+
         return {
             "response": response,
             "memory": self.memory.memory,
-            "category": routing_result['category']
+            "category": category
         }
 

@@ -104,7 +104,7 @@ async def handle_audio_chat(file: UploadFile = File(...)):
         print(f'received {file.filename}')
         transcribed_text = audio_processor.transcribe_audio(file.file)
         
-        print(f"Transcribed text: {transcribed_text[:20]}")
+        print(f"Transcribed text: {transcribed_text}")
         
         # Process the transcribed text with the preorder chatbot
         result = preorder_chatbot.process_order(

@@ -30,16 +30,7 @@ traceback2==1.4.0
 # JSON handling
 jsonschema==4.19.1
 
-
-# Add these to your existing requirements.txt
-
 # For image processing and AI
-pillow>=9.0.0
 transformers>=4.30.0
 torch>=2.0.0
-openai>=0.28.0
 
-# FastAPI and utilities (if not already there)
-fastapi>=0.103.1
-uvicorn>=0.23.2
-python-multipart>=0.0.6

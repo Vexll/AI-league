@@ -1,6 +1,8 @@
 from io import BytesIO
 import json
 import os
+import tempfile
+import uuid
 import openai
 from typing import Dict, Any, Optional
 
@@ -16,14 +18,43 @@ class AudioProcessor:
     def transcribe_audio(self, audio_file: BytesIO) -> str:
         """Transcribe audio file to text using OpenAI's Whisper model"""
         try:
-            transcript = openai.Audio.transcribe(
-                model="whisper-1",
-                file=audio_file,
-            )
+            # Get a directory where we definitely have write permissions
+            temp_dir = os.path.join(os.path.expanduser('~'), 'Documents', 'AudioTemp')
+            os.makedirs(temp_dir, exist_ok=True)
+            
+            # Create a temporary file with a unique name in our custom directory
+            temp_file_path = os.path.join(temp_dir, f"audio_transcribe_{uuid.uuid4().hex}.wav")
+            
+        
+            # Write the audio data to our temporary file
+            with open(temp_file_path, 'wb') as temp_file:
+                # If we're getting a file-like object, read its content
+                if hasattr(audio_file, 'read'):
+                    audio_content = audio_file.read()
+                    if hasattr(audio_file, 'seek'):  # Reset the file pointer if possible
+                        audio_file.seek(0)
+                    temp_file.write(audio_content)
+                else:
+                    # If we're getting the raw content, write it directly
+                    temp_file.write(audio_file)
+            
+            # Open the file in binary read mode
+            with open(temp_file_path, 'rb') as audio:
+                transcript = openai.Audio.transcribe(
+                    model="whisper-1",
+                    file=audio
+                )
             return transcript.text
         except Exception as e:
-            print(f"Error transcribing audio: {e}")
-            return f"Error transcribing audio: {e}"
+            print(f"Error transcribing audio: {str(e)[:500]}")
+            return f"Error transcribing audio: {str(e)[:500]}"
+        finally:
+            # Clean up the temporary file
+            if os.path.exists(temp_file_path):
+                try:
+                    os.remove(temp_file_path)
+                except:
+                    pass  # Ignore cleanup errors
 
 
 # ===================== Memory =====================
